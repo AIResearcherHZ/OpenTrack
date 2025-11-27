@@ -556,7 +556,7 @@ class G1TrackingEnv(g1_base.G1Env):
             path_to_datasets = os.path.join(os.getcwd(), "data", "mocap", dataset_name)
             for idx, t_name in enumerate(tqdm(traj_names)):
                 # load the npz file
-                traj_path = os.path.join(path_to_datasets, "UnitreeG1", f"{t_name}.npz")
+                traj_path = os.path.join(path_to_datasets, "unitree_g1", f"{t_name}.npz")
                 traj = Trajectory.load(traj_path, backend=np)
 
                 if not traj.data.is_complete:

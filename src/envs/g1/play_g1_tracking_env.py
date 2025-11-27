@@ -355,7 +355,7 @@ class PlayG1TrackingEnv:
             for t_name in traj_names:
                 print(f"Loading trajectory {t_name} from {path_to_datasets}")
                 # load the npz file
-                traj_path = os.path.join(path_to_datasets, "UnitreeG1", f"{t_name}.npz")
+                traj_path = os.path.join(path_to_datasets, "unitree_g1", f"{t_name}.npz")
                 traj = Trajectory.load(traj_path, backend=np)
 
                 # recalculate velocity
