@@ -11,6 +11,25 @@
 This repository is the official implementation of OpenTrack, an open-source humanoid motion tracking codebase that uses MuJoCo for simulation and supports multi-GPU parallel training.
 </div>
 
+
+# News 🚩
+
+[November 30, 2025] LAFAN1 generalist v1 released. **Now you can track cartwheel, kungfu, fall and getup, and many other motions within a single policy.**
+
+[September 19, 2025] Simple Domain Randomization released.
+
+[September 19, 2025] Tracking codebase released.
+
+# TODOs
+
+- [x] Release motion tracking codebase
+- [x] Release simple domain randomization
+- [x] Release pretrained LAFAN1 generalist v1 checkpoints
+- [ ] Release DAgger code
+- [ ] Release AnyAdapter
+- [ ] Release more pretrained checkpoints
+- [ ] Release real-world deployment code
+
 # Prepare
 
 1. Clone the repository:
@@ -25,6 +44,7 @@ This repository is the official implementation of OpenTrack, an open-source huma
    # Install torch to convert JAX to Torch. We don't require the GPU version of torch, but you can install any version as you like.
    pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cpu
    pip install -r requirements.txt
+   export MJX_SKIP_MENAGERIE_CLONE=1 
    ```
 
 5. Download the [mocap data](https://huggingface.co/datasets/robfiras/loco-mujoco-datasets/tree/main/Lafan1/mocap/unitree_g1) and put them under `data/mocap/`. Thanks for the retargeting motions of LAFAN1 dataset from [LocoMuJoCo](https://github.com/robfiras/loco-mujoco/)!
@@ -42,8 +62,18 @@ This repository is the official implementation of OpenTrack, an open-source huma
                |--- ...
    ```
 
-## Usage ##
+## Usage
 
+### Play pretrained checkpoints
+1. Download pretrained checkpoints and configs from [checkpoints and configs](https://drive.google.com/drive/folders/1wDL4Chr6sGQiCx1tbvhf9DowN73cP_PF?usp=drive_link), and put them under `experiments/`.
+
+2. Run the evaluation script:
+   ```shell
+   # your_exp_name=<timestamp>_<exp_name>
+   python play_policy.py --exp_name <your_exp_name> [--use_viewer] [--use_renderer] [---play_ref_motion]
+   ```
+As of **November 30, 2025**, we have open-sourced **a generalist model on LAFAN1**, daggered from four teachers. This checkpoint was trained with simple domain randomization (DR). You may try deploying it on a Unitree G1 robot using your own deployment code, since we have not yet open-sourced our real-robot deployment pipeline.
+### Train from scratch
 1. Train the model
    ```shell
    # Train on a flat terrain:
@@ -53,7 +83,7 @@ This repository is the official implementation of OpenTrack, an open-source huma
    python train_policy.py --exp_name rough_terrain --terrain_type rough_terrain
    
    # For debug mode (quick testing training without logging)
-   # python train_policy.py --exp_name debug 
+   python train_policy.py --exp_name debug 
    ```
 
 2. Evaluate the model
@@ -69,13 +99,6 @@ This repository is the official implementation of OpenTrack, an open-source huma
    # your_exp_name=<timestamp>_<exp_name>
    python play_policy.py --exp_name <your_exp_name> [--use_viewer] [--use_renderer] [---play_ref_motion]
    ```
-
-# TODOs
-
-- [x] Release AnyTracker
-- [x] Release dynamics disturbances
-- [ ] Release AnyAdapter
-- [ ] Release real deployment code
    
 ## Acknowledgement
 
